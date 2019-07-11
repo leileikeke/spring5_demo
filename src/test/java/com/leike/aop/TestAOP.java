@@ -1,6 +1,5 @@
 package com.leike.aop;
 
-import com.leike.advice.BeforeAdice;
 import com.leike.service.ProviderService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
