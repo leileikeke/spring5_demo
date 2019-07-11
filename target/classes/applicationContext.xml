@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        将对象的创建交给Spring容器  ,  在这个配置文件里面去声明我要什么对象
+        class: 写java类的权限定类名 , 它是通过全类名然后使用反射的技术进行创建的
+        id:    Id就是给这个对象在整个应用程序的上下文中取名字以方便区分.
+    -->
+    <!--注入,配置元数据-->
+    <bean class="com.leike.pojo.Girl" id="girl" abstract="true" destroy-method="xiezhuang" init-method="huazhuang">
+        <property name="id" value="1"></property>
+    </bean>
+    <!--test2()-->
+    <bean class="com.leike.pojo.Girl" id="youGirl" parent="girl">
+        <property name="name" value="王菲"></property>
+        <property name="sex" value="女"></property>
+    </bean>
+    <!--默认的情况下-->
+    <!--test3()-->
+    <bean class="com.leike.pojo.Girl" id="mygirl" parent="girl" name="g g2 g3 g4">
+        <property name="name" value="王菲"></property>
+        <property name="sex" value="女"></property>
+    </bean>
+
+    <!--test4()-->
+    <bean class="com.leike.pojo.Boy" id="boy" depends-on="dog"></bean>
+    <bean class="com.leike.pojo.Dog" id="dog">
+        <property name="name" value="旺财"/>
+    </bean>
+
+    <bean class="com.leike.pojo.Dog2" id="people">
+        <property name="dog" ref="dog"></property>
+    </bean>
+
+    <alias name="dog" alias="旺财"/>
+
+
+    <bean class="com.leike.pojo.Girl" id="girl2">
+        <constructor-arg name="id" value="1"/>
+        <constructor-arg name="name" value="王小丫"/>
+        <constructor-arg name="sex" value="6"/>
+    </bean>
+</beans>

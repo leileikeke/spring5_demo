@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd">
+
+    <!--spring-*.xml   代指同一路径下的所有 spring-xxx.xml 文件-->
+<!--    <import resource="classpath:spring/spring-*.xml"></import>-->
+
+    <!--激活注解
+        扫描包是扫描该包以及该包的所有子包,
+    -->
+    <context:component-scan base-package="com.leike.service">
+        <!--这个包下面的Component这种注解不扫描-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+
+
+
+    <!-- 1.aop是基于代理完成的，所以我们要激活我们的自动代理-->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 2.注册一个切面要使用的类 -->
+    <bean class="com.leike.advice.BeforeAdice" id="beforeAdice">
+    </bean>
+    <bean class="com.leike.advice.AfterAdvice" id="afterAdvice">
+    </bean>
+    <bean class="com.leike.advice.AfterReturningAdvice" id="afterReturningAdvice">
+    </bean>
+    <!-- 3.配置切入点等等信息-->
+    <aop:config>
+        <aop:aspect id="beforeAspect" ref="beforeAdice">
+            <!--
+                aop:before 表明他确实是前置通知
+                method：指明他使用哪个方法来切。
+                pointcut:切入点
+                            你要什么包下面的什么类下面的什么方法
+                            pointcut="execution(* com.leike.service.*.*(..))"
+            -->
+            <aop:before method="methodBefore" pointcut="execution(void com.leike.service.ProviderService.add(String))"></aop:before>
+            <aop:before method="before" pointcut="execution(void com.leike.service.ProviderService.add(String))"></aop:before>
+        </aop:aspect>
+
+        <aop:aspect id="afterAspect" ref="afterAdvice">
+            <aop:after method="after" pointcut="execution(void com.leike.service.ProviderService.add(String))"></aop:after>
+        </aop:aspect>
+
+        <aop:aspect id="afterReturningAspect" ref="afterReturningAdvice">
+            <aop:after-returning method="afterReturning" pointcut="execution(void com.leike.service.ProviderService.add(String))"></aop:after-returning>
+        </aop:aspect>
+
+    </aop:config>
+
+    <bean class="com.leike.service.ProviderService" id="providerService">
+
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+</beans>

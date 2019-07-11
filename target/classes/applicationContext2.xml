@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="com.leike.pojo.Prople" id="prople">
+        <property name="name" value="leike"></property>
+        <property name="age" value="18"></property>
+        <property name="friends">
+            <!--数组类型-->
+            <list>
+                <value>郭富城</value>
+                <value>黎明</value>
+            </list>
+        </property>
+        <property name="nums">
+            <!--List类型-->
+            <array>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </array>
+        </property>
+        <property name="dogs">
+            <list>
+                <!--内部bean无法被外部所引用 所以无需ID-->
+                <bean class="com.leike.pojo.Dog">
+                    <property name="name" value="旺财"></property>
+                </bean>
+                <bean class="com.leike.pojo.Dog">
+                    <property name="name" value="小强"></property>
+                </bean>
+            </list>
+        </property>
+        <property name="pigs">
+            <set>
+                <bean class="com.leike.pojo.Pig">
+                    <property name="name" value="小强一号"></property>
+                </bean>
+                <bean class="com.leike.pojo.Pig">
+                    <property name="name" value="小强二号"></property>
+                </bean>
+            </set>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="user1">
+                    <bean class="com.leike.pojo.User">
+                        <property name="name" value="小人儿1号"></property>
+                        <property name="address" value="小人国"></property>
+                    </bean>
+                </entry>
+                <entry key="User2">
+                    <bean class="com.leike.pojo.User">
+                        <property name="name" value="小人儿2号"></property>
+                        <property name="address" value="小人国"></property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>
